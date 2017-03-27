@@ -5,14 +5,14 @@
   "main": "library.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Annihil/nodebb-email-blacklist.git"
+    "url": "git+https://github.com/Annihil/nodebb-plugin-email-blacklist.git"
   },
   "author": "Annihil",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Annihil/nodebb-email-blacklist/issues"
+    "url": "https://github.com/Annihil/nodebb-plugin-email-blacklist/issues"
   },
-  "homepage": "https://github.com/Annihil/nodebb-email-blacklist#readme",
+  "homepage": "https://github.com/Annihil/nodebb-plugin-email-blacklist#readme",
    "nbbpm": {
       "compatibility": "^1.0.1"
     }
