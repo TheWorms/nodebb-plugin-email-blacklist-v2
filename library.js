@@ -1,3 +1,4 @@
+var https = require('https');
 var pluginData = require('./plugin.json');
 var winston = module.parent.require('winston');
 var Meta = module.parent.require('./meta');
@@ -31,16 +32,22 @@ Plugin.load = function (params, callback) {
 };
 
 Plugin.filterEmailRegister = function (regData, next) {
-    if (regData && regData.userData && regData.userData.email)
+    if (regData && regData.userData && regData.userData.email) {
         if (isBlacklistedDomain(regData.userData.email))
             return next(new Error('Blacklisted email provider.'));
+        if (pluginSettings.isTempMailEnabled === 'on')
+            return isTempMail(regData.userData.email, regData, next);
+    }
     return next(null, regData);
 };
 
 Plugin.filterEmailUpdate = function (data, next) {
-    if (data && data.email)
+    if (data && data.email) {
         if (isBlacklistedDomain(data.email))
             return next(new Error('Blacklisted email provider.'));
+        if (pluginSettings.isTempMailEnabled === 'on')
+            return isTempMail(data.email, data, next);
+    }
     return next(null, data);
 };
 
@@ -51,6 +58,28 @@ function isBlacklistedDomain(email) {
         if (domain === lines[i].trim())
             return true;
     return false;
+}
+
+function isTempMail(email, data, next) {
+    https.request({
+        host: 'www.istempmail.com',
+        path: '/api-public/check/' + email
+    }, function (res) {
+        var body = '';
+        res.on('data', function (chunk) {
+            body += chunk;
+        });
+        res.on('end', function () {
+            winston.info('[plugins/' + pluginData.nbbId + '] isTempMail: ' + body);
+            var jsonBody = JSON.parse(body);
+            if ("blocked" in jsonBody && jsonBody.blocked)
+                return next(new Error('Blacklisted email provider.'));
+            return next(null, data);
+        }).on('error', function(err) {
+            winston.warn('[plugins/' + pluginData.nbbId + '] Error with the request:', err.message);
+            return next(null, data);
+        });
+    }).end();
 }
 
 Plugin.admin = {

@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-email-blacklist",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "nodebb email blacklist",
   "main": "library.js",
   "repository": {

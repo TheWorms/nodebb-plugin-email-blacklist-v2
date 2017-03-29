@@ -1,5 +1,6 @@
 # nodebb email blacklist plugin
-An email blacklist plugin for nodebb - only let's users register with an email address not in the blacklisted email domain list.
+An email blacklist plugin for nodebb - only let's users register with an email address not in the blacklisted email domain list.  
+It can also use [isTempMail API](https://www.istempmail.com) to check the domain.
   
 You can add email domain to the blacklist (one per line)  
 Example of available list:
