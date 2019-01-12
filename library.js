@@ -1,7 +1,7 @@
 var https = require('https');
 var pluginData = require('./plugin.json');
 var winston = module.parent.require('winston');
-var Meta = module.parent.require('./meta');
+var meta = require.main.require('./src/meta');
 var pluginSettings;
 var Plugin = {};
 
